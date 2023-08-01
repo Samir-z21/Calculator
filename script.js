@@ -8,7 +8,7 @@ let Operator = document.createElement('span');
 // declaring the equal sign 
 let equal = document.createElement('span');
 // declaring the result
-let result = document.createElement('p')
+let result = document.createElement('span')
 
 // code for appending the variables cliked to the screen
 let variables = document.querySelectorAll(".variables");
@@ -34,17 +34,31 @@ variables.forEach((variable) => {
 let operators = document.querySelectorAll(".operators");
 operators.forEach((operator) => {
 operator.addEventListener('click', function(e){
-    if (variableB && variableB.parentNode === screen) return
+    if (result && result.parentNode === screen) {
+        screen.removeChild(variableA);
+        screen.removeChild(variableB);
+        screen.removeChild(Operator);
+        screen.removeChild(equal);
+        screen.removeChild(result);
+        variableA.textContent = result.textContent;
+        screen.appendChild(variableA)
+        variableB.textContent = null;
+    }
     if (!(variableA && variableA.parentNode === screen)) return
+    if (variableB && variableB.parentNode === screen) return
+    
     Operator.textContent = e.target.innerText;
     screen.appendChild(Operator);
+    
+    
 });
 });
 
 // code to call upon operation 
 let equals = document.querySelector(".equal");
 equals.addEventListener('click', function(e){
-    if (!(variableA && variableA.parentNode === screen)) return
+    if (!(variableA && variableA.parentNode === screen)) return;
+    if (result && result.parentNode === screen) return;
     equal.textContent = e.target.innerText;
     screen.appendChild(equal);
     operation(Operator,variableA,variableB)
