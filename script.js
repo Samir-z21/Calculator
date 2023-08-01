@@ -45,7 +45,7 @@ operator.addEventListener('click', function(e){
         screen.removeChild(result);
         variableA.textContent = result.textContent;
         screen.appendChild(variableA)
-        variableB.textContent = null;
+        variableB.textContent = '';
     }
     
  // return if no VariableA
@@ -97,4 +97,12 @@ function operation (Operator,variableA,variableB) {
         screen.appendChild(result)
     }
 }
+
+let clear = document.querySelector("#clear");
+clear.addEventListener('click', () => {
+    while (screen.firstChild){
+        screen.firstChild.textContent = '';
+        screen.removeChild(screen.firstChild);
+    }
+})
 
