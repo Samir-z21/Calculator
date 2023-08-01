@@ -10,7 +10,7 @@ let equal = document.createElement('span');
 // declaring the result
 let result = document.createElement('span')
 
-// code for appending the variables cliked to the screen
+// code for variables buttons
 let variables = document.querySelectorAll(".variables");
 variables.forEach((variable) => {
 
@@ -30,10 +30,11 @@ variables.forEach((variable) => {
 });
 });
 
-// code for appending the operator cliked to the screen
+// code for the operator buttons
 let operators = document.querySelectorAll(".operators");
 operators.forEach((operator) => {
 operator.addEventListener('click', function(e){
+    // erasing previous variables and allowing to use the operators on new result
     if (result && result.parentNode === screen) {
         screen.removeChild(variableA);
         screen.removeChild(variableB);
@@ -44,9 +45,13 @@ operator.addEventListener('click', function(e){
         screen.appendChild(variableA)
         variableB.textContent = null;
     }
+    // return if no VariableA
     if (!(variableA && variableA.parentNode === screen)) return
+
+    // return if variableB already there    
     if (variableB && variableB.parentNode === screen) return
     
+
     Operator.textContent = e.target.innerText;
     screen.appendChild(Operator);
     
@@ -58,6 +63,8 @@ operator.addEventListener('click', function(e){
 let equals = document.querySelector(".equal");
 equals.addEventListener('click', function(e){
     if (!(variableA && variableA.parentNode === screen)) return;
+    if (!(Operator && Operator.parentNode === screen)) return;
+    if (!(variableB && variableB.parentNode === screen)) return;
     if (result && result.parentNode === screen) return;
     equal.textContent = e.target.innerText;
     screen.appendChild(equal);
