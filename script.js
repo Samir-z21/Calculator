@@ -8,7 +8,10 @@ let Operator = document.createElement('span');
 // declaring the equal sign 
 let equal = document.createElement('span');
 // declaring the result
-let result = document.createElement('span')
+let result = document.createElement('span');
+
+// rounding result
+let round;
 
 let error = document.createElement('p');
 
@@ -119,17 +122,21 @@ function operation (Operator,variableA,variableB) {
             return
 
         } else {
-       result.textContent = variableA.textContent/variableB.textContent;
+       round = variableA.textContent/variableB.textContent;
+       result.textContent = Number(round.toFixed(4));
        screen.appendChild(result);
         };
     } else if (Operator.textContent === "×") {
-        result.textContent = variableA.textContent * variableB.textContent;
+        round = variableA.textContent * variableB.textContent;
+        result.textContent = Number(round.toFixed(4));
         screen.appendChild(result)
     } else if (Operator.textContent === "-") {
-        result.textContent = variableA.textContent - variableB.textContent;
+        round = variableA.textContent - variableB.textContent;
+        result.textContent = Number(round.toFixed(4));
         screen.appendChild(result)
     }else if (Operator.textContent === "+") {
-        result.textContent = +variableA.textContent + +variableB.textContent;
+        round = +variableA.textContent + +variableB.textContent;
+        result.textContent = Number(round.toFixed(4));
         screen.appendChild(result)
     }
 }
