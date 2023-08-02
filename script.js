@@ -18,7 +18,8 @@ variables.forEach((variable) => {
         if (Operator && Operator.parentNode === screen) return;
         if (equal && equal.parentNode === screen) return;
         if (e.target.innerText === '.') {
-            if (variableA.textContent.includes('.')) return
+            if (variableA.textContent.includes('.')) return;
+            if (variableA.textContent === "") variableA.textContent += 0;
         }
             variableA.textContent += e.target.innerText;
             screen.appendChild(variableA);
@@ -29,7 +30,8 @@ variables.forEach((variable) => {
         if (!(Operator && Operator.parentNode === screen)) return; 
         if (equal && equal.parentNode === screen) return;
         if (e.target.innerText === '.') {
-            if (variableB.textContent.includes('.')) return
+            if (variableB.textContent.includes('.')) return;
+            if (variableB.textContent === "") variableB.textContent += 0;
         }
             variableB.textContent += e.target.innerText;
             screen.appendChild(variableB);
