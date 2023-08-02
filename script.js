@@ -21,6 +21,8 @@ variables.forEach((variable) => {
             if (variableA.textContent.includes('.')) return;
             if (variableA.textContent === "") variableA.textContent += 0;
         }
+        if (e.target.innerText === '0' &&  variableA.textContent === "0") return
+        
             variableA.textContent += e.target.innerText;
             screen.appendChild(variableA);
 });
@@ -33,6 +35,8 @@ variables.forEach((variable) => {
             if (variableB.textContent.includes('.')) return;
             if (variableB.textContent === "") variableB.textContent += 0;
         }
+        if (e.target.innerText === '0' &&  variableB.textContent === "0") return
+
             variableB.textContent += e.target.innerText;
             screen.appendChild(variableB);
 });
