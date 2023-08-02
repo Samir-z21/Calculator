@@ -47,37 +47,42 @@ operator.addEventListener('click', function(e){
         screen.appendChild(variableA)
         variableB.textContent = '';
     }
-    
- // return if no VariableA
+    // return if no VariableA
     if (!(variableA && variableA.parentNode === screen)) return
-
-    // return if variableB already there    
-    if (variableB && variableB.parentNode === screen) return
-   
-
+    // run operations without operators    
+    if (variableB && variableB.parentNode === screen){
+        screen.removeChild(variableA);
+        screen.removeChild(variableB);
+        operation(Operator,variableA,variableB);
+        screen.removeChild(result);
+        variableA.textContent = result.textContent;
+        screen.appendChild(variableA);
+        variableB.textContent = '';
+    }
+    
     Operator.textContent = e.target.innerText;
-    screen.appendChild(Operator);
-    
-    
+    screen.appendChild(Operator); 
 });
 });
 
 // code to call upon operation 
 let equals = document.querySelector(".equal");
 equals.addEventListener('click', function(e){
-    // if no variables, operator or if result is here
+    // if no variables or operator return 
     if (!(variableA && variableA.parentNode === screen)) return;
     if (!(Operator && Operator.parentNode === screen)) return;
     if (!(variableB && variableB.parentNode === screen)) return;
+    // if result is already there return
     if (result && result.parentNode === screen) return;
+
     equal.textContent = e.target.innerText;
     screen.appendChild(equal);
     operation(Operator,variableA,variableB)
 })
 
+// function for operation
 function operation (Operator,variableA,variableB) {
     if (Operator.textContent === "÷") {
-        console.log(variableB.textContent)
         if (variableB.textContent == 0){
             result.textContent = "ERROR";
             screen.appendChild(result);
@@ -98,6 +103,7 @@ function operation (Operator,variableA,variableB) {
     }
 }
 
+// code for clear button
 let clear = document.querySelector("#clear");
 clear.addEventListener('click', () => {
     while (screen.firstChild){
@@ -105,4 +111,5 @@ clear.addEventListener('click', () => {
         screen.removeChild(screen.firstChild);
     }
 })
+
 
