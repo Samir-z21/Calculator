@@ -11,6 +11,10 @@ let equal = document.createElement('span');
 let result = document.createElement('span')
 
 let error = document.createElement('p');
+
+
+variableA.textContent = '0';
+screen.appendChild(variableA);
 // code for variables buttons
 let variables = document.querySelectorAll(".variables");
 variables.forEach((variable) => {
@@ -24,7 +28,11 @@ variables.forEach((variable) => {
             if (variableA.textContent === "") variableA.textContent += 0;
         }
         if (e.target.innerText === '0' &&  variableA.textContent === "0") return
-        if (!(e.target.innerText === '.') && variableA.textContent === "0") return
+        if (!(e.target.innerText === '.') && variableA.textContent === "0") {
+            variableA.textContent = '';
+            variableA.textContent === e.target.innerText;
+            screen.appendChild(variableA);
+        }
 
             variableA.textContent += e.target.innerText;
             screen.appendChild(variableA);
@@ -133,5 +141,7 @@ clear.addEventListener('click', () => {
     equal.textContent = '';
     result.textContent = '';
     while (screen.firstChild) screen.removeChild(screen.firstChild);
+    variableA.textContent = '0'
+    screen.appendChild(variableA);
 })
 
