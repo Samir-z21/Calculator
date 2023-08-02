@@ -10,11 +10,13 @@ let equal = document.createElement('span');
 // declaring the result
 let result = document.createElement('span')
 
+let error = document.createElement('p');
 // code for variables buttons
 let variables = document.querySelectorAll(".variables");
 variables.forEach((variable) => {
-
+    
     variable.addEventListener('click', function(e){
+        if (error && error.parentNode === screen) return;
         if (Operator && Operator.parentNode === screen) return;
         if (equal && equal.parentNode === screen) return;
         if (e.target.innerText === '.') {
@@ -22,13 +24,15 @@ variables.forEach((variable) => {
             if (variableA.textContent === "") variableA.textContent += 0;
         }
         if (e.target.innerText === '0' &&  variableA.textContent === "0") return
-        
+        if (!(e.target.innerText === '.') && variableA.textContent === "0") return
+
             variableA.textContent += e.target.innerText;
             screen.appendChild(variableA);
 });
 
 
     variable.addEventListener('click', function(e){
+        if (error && error.parentNode === screen) return;
         if (!(Operator && Operator.parentNode === screen)) return; 
         if (equal && equal.parentNode === screen) return;
         if (e.target.innerText === '.') {
@@ -36,6 +40,7 @@ variables.forEach((variable) => {
             if (variableB.textContent === "") variableB.textContent += 0;
         }
         if (e.target.innerText === '0' &&  variableB.textContent === "0") return
+        if (!(e.target.innerText === '.') && variableB.textContent === "0") return
 
             variableB.textContent += e.target.innerText;
             screen.appendChild(variableB);
@@ -47,7 +52,7 @@ let operators = document.querySelectorAll(".operators");
 operators.forEach((operator) => {
 operator.addEventListener('click', function(e){
     // return if Error
-    if (result.textContent === "ERROR") return
+    if (error && error.parentNode === screen) return;
     // erasing previous variables and allowing to use the operators on new result
     if (result && result.parentNode === screen) {
         screen.removeChild(variableA);
@@ -74,6 +79,7 @@ operator.addEventListener('click', function(e){
     
     Operator.textContent = e.target.innerText;
     screen.appendChild(Operator); 
+
 });
 });
 
@@ -86,23 +92,26 @@ equals.addEventListener('click', function(e){
     if (!(variableB && variableB.parentNode === screen)) return;
     // if result is already there return
     if (result && result.parentNode === screen) return;
-
+    if (error && error.parentNode === screen) return;
     equal.textContent = e.target.innerText;
     screen.appendChild(equal);
-    operation(Operator,variableA,variableB)
+    operation(Operator,variableA,variableB);
+    
 })
 
 // function for operation
 function operation (Operator,variableA,variableB) {
     if (Operator.textContent === "÷") {
         if (variableB.textContent == 0){
-            result.textContent = "ERROR";
-            screen.appendChild(result);
+            error.textContent = "ERROR";
+            while (screen.firstChild) screen.removeChild(screen.firstChild);
+            screen.appendChild(error);
             return
-        } else{
+
+        } else {
        result.textContent = variableA.textContent/variableB.textContent;
        screen.appendChild(result);
-    };
+        };
     } else if (Operator.textContent === "×") {
         result.textContent = variableA.textContent * variableB.textContent;
         screen.appendChild(result)
@@ -118,9 +127,11 @@ function operation (Operator,variableA,variableB) {
 // code for clear button
 let clear = document.querySelector("#clear");
 clear.addEventListener('click', () => {
-    while (screen.firstChild){
-        screen.firstChild.textContent = '';
-        screen.removeChild(screen.firstChild);
-    }
+    variableA.textContent = '';
+    variableB.textContent = '';
+    Operator.textContent = '';
+    equal.textContent = '';
+    result.textContent = '';
+    while (screen.firstChild) screen.removeChild(screen.firstChild);
 })
 
