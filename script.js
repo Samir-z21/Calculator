@@ -1,14 +1,21 @@
 // Reference to the screen 
 let screen = document.querySelector("#screen");
+screen.classList.add
 // declaring the required variables to appear on screen
 let variableA = document.createElement('span');
+variableA.classList.add('below');
 let variableB = document.createElement('span');
+variableB.classList.add('above');
 let Operator = document.createElement('span');
+Operator.classList.add('above');
 
 // declaring the equal sign 
 let equal = document.createElement('span');
+equal.classList.add('above');
 // declaring the result
 let result = document.createElement('span');
+result.classList.add('below');
+
 
 // rounding result
 let round;
@@ -20,11 +27,17 @@ variableA.textContent = '0';
 screen.appendChild(variableA);
 
 
+// manage digits overflow
+let overflowA = []
+let overflowB = []
+
+
 // code for variables buttons
 let variables = document.querySelectorAll(".variables");
 variables.forEach((variable) => {
     
     variable.addEventListener('click', function(e){
+        if (overflowA.length === 16) return 
         if (error && error.parentNode === screen) return;
         if (Operator && Operator.parentNode === screen) return;
         if (equal && equal.parentNode === screen) return;
@@ -39,12 +52,15 @@ variables.forEach((variable) => {
             screen.appendChild(variableA);
         }
 
+            overflowA = variableA.textContent.split('');
+            overflowA.push("e.target.innerText");
             variableA.textContent += e.target.innerText;
             screen.appendChild(variableA);
 });
 
 
     variable.addEventListener('click', function(e){
+        if (overflowB.length === 16) return
         if (error && error.parentNode === screen) return;
         if (!(Operator && Operator.parentNode === screen)) return; 
         if (equal && equal.parentNode === screen) return;
@@ -55,9 +71,11 @@ variables.forEach((variable) => {
         if (e.target.innerText === '0' &&  variableB.textContent === "0") return
         if (!(e.target.innerText === '.') && variableB.textContent === "0") return
 
+            overflowB = variableB.textContent.split('');
+            overflowB.push("e.target.innerText");
             variableB.textContent += e.target.innerText;
             screen.appendChild(variableB);
-});
+});        
 });
 
 // code for the operator buttons
@@ -89,7 +107,8 @@ operator.addEventListener('click', function(e){
         screen.appendChild(variableA);
         variableB.textContent = '';
     }
-    
+    overflowA.length = 0;
+    overflowB.length = 0;
     Operator.textContent = e.target.innerText;
     screen.appendChild(Operator); 
 
@@ -106,6 +125,9 @@ equals.addEventListener('click', function(e){
     // if result is already there return
     if (result && result.parentNode === screen) return;
     if (error && error.parentNode === screen) return;
+
+    overflowA.length = 0;
+    overflowB.length = 0;
     equal.textContent = e.target.innerText;
     screen.appendChild(equal);
     operation(Operator,variableA,variableB);
@@ -152,11 +174,16 @@ clear.addEventListener('click', () => {
     while (screen.firstChild) screen.removeChild(screen.firstChild);
     variableA.textContent = '0'
     screen.appendChild(variableA);
+    overflowA.length = 0;
+    overflowB.length = 0;
 });
 
 // code for delete button
 let Delete = document.querySelector("#delete");
 Delete.addEventListener('click', () => {
+    if (variableB && variableB.parentNode === screen) {
+        overflowB.pop();
+    } else overflowA.pop();
     if (result && result.parentNode === screen) return;
     
     if (Operator &&

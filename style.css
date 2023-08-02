@@ -17,6 +17,9 @@ body {
 }
 
 #screen {
+    display: flex;
+    justify-content: end;
+    align-items: end;
     width: 356px;
     height: 120px;
     margin-bottom:15px ;
@@ -32,4 +35,17 @@ button {
     width: 81.5px;
     height: 68px;
     margin: 3px;
+}
+
+/* styling for dynamic elements*/
+.below {
+    font-size: 40px;
+    margin-bottom: 10px;
+    margin-right: 5px;
+}
+
+.above {
+    font-size: 40px;
+    margin-bottom: 10px;
+    margin-right: 5px;
 }
