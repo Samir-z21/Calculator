@@ -17,6 +17,9 @@ variables.forEach((variable) => {
     variable.addEventListener('click', function(e){
         if (Operator && Operator.parentNode === screen) return;
         if (equal && equal.parentNode === screen) return;
+        if (e.target.innerText === '.') {
+            if (variableA.textContent.includes('.')) return
+        }
             variableA.textContent += e.target.innerText;
             screen.appendChild(variableA);
 });
@@ -25,6 +28,9 @@ variables.forEach((variable) => {
     variable.addEventListener('click', function(e){
         if (!(Operator && Operator.parentNode === screen)) return; 
         if (equal && equal.parentNode === screen) return;
+        if (e.target.innerText === '.') {
+            if (variableB.textContent.includes('.')) return
+        }
             variableB.textContent += e.target.innerText;
             screen.appendChild(variableB);
 });
@@ -111,5 +117,4 @@ clear.addEventListener('click', () => {
         screen.removeChild(screen.firstChild);
     }
 })
-
 
