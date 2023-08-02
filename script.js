@@ -12,9 +12,11 @@ let result = document.createElement('span')
 
 let error = document.createElement('p');
 
-
+// default display of '0'
 variableA.textContent = '0';
 screen.appendChild(variableA);
+
+
 // code for variables buttons
 let variables = document.querySelectorAll(".variables");
 variables.forEach((variable) => {
@@ -143,5 +145,35 @@ clear.addEventListener('click', () => {
     while (screen.firstChild) screen.removeChild(screen.firstChild);
     variableA.textContent = '0'
     screen.appendChild(variableA);
-})
+});
 
+// code for delete button
+let Delete = document.querySelector("#delete");
+Delete.addEventListener('click', () => {
+    if (result && result.parentNode === screen) return;
+    
+    if (Operator &&
+        Operator.parentNode === screen &&
+        !(variableB && variableB.parentNode === screen)) {
+        screen.removeChild(Operator); 
+        return
+        }
+
+    if (variableA && variableA.parentNode === screen &&
+        !(variableA.textContent === '0') &&
+        !(variableB && variableB.parentNode === screen) ) {
+        let arrVariableA = variableA.textContent.split('');
+        arrVariableA.pop();
+        variableA.textContent = arrVariableA.join("");
+    }
+
+    if (variableA.textContent === "") variableA.textContent = 0;
+
+    if ((variableB && variableB.parentNode === screen)){
+        let arrVariableB = variableB.textContent.split('');
+        arrVariableB.pop();
+        variableB.textContent = arrVariableB.join("");
+    }
+
+    if (variableB.textContent === "" && variableB.parentNode === screen) screen.removeChild(variableB)
+})
