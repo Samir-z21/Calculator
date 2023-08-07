@@ -1,30 +1,27 @@
 // Reference to the screen 
 let screen = document.querySelector("#screen");
+
+// creating div upper and lower
 let aboves = document.createElement('div');
-screen.appendChild(aboves);
 let belows = document.createElement('div');
+belows.classList.add('empty-space');
+screen.appendChild(aboves);
 screen.appendChild(belows);
 
-// declaring the required variables to appear on screen
+// CreatingElements
 let variableA = document.createElement('span');
-variableA.classList.add('below');
 let variableB = document.createElement('span');
-variableB.classList.add('below');
-
-// declaring the Operator
 let Operator = document.createElement('span');
-Operator.classList.add('above');
-
-// declaring the equal sign 
 let equal = document.createElement('span');
-equal.classList.add('above');
-
-// declaring the result
 let result = document.createElement('span');
-result.classList.add('below');
-
-// declaring error
 let error = document.createElement('p');
+
+// adding classLists
+Operator.classList.add('above');
+equal.classList.add('above');
+variableA.classList.add('below');
+variableB.classList.add('below');
+result.classList.add('below');
 error.classList.add('below');
 
 // rounding result
@@ -36,7 +33,7 @@ let overflowB = []
 
 // default display of '0'
 variableA.textContent = '0';
-screen.appendChild(variableA);
+belows.appendChild(variableA);
 
 // code for variables buttons
 let variables = document.querySelectorAll(".variables");
@@ -45,42 +42,43 @@ variables.forEach((variable) => {
     variable.addEventListener('click', function(e){
         if (overflowA.length === 16) return 
         if (error && error.parentNode === screen) return;
-        if (Operator && Operator.parentNode === screen) return;
-        if (equal && equal.parentNode === screen) return;
+        if (Operator && Operator.parentNode === aboves) return;
+        if (equal && equal.parentNode === aboves) return;
+        if (e.target.innerText === '0' &&  variableA.textContent === "0") return;
         if (e.target.innerText === '.') {
             if (variableA.textContent.includes('.')) return;
             if (variableA.textContent === "") variableA.textContent += 0;
         }
-        if (e.target.innerText === '0' &&  variableA.textContent === "0") return
+        
         if (!(e.target.innerText === '.') && variableA.textContent === "0") {
             variableA.textContent = '';
-            variableA.textContent === e.target.innerText;
-            screen.appendChild(variableA);
         }
 
             overflowA = variableA.textContent.split('');
             overflowA.push("e.target.innerText");
             variableA.textContent += e.target.innerText;
-            screen.appendChild(variableA);
+            belows.appendChild(variableA);
+            
+            
 });
 
 
     variable.addEventListener('click', function(e){
         if (overflowB.length === 16) return
         if (error && error.parentNode === screen) return;
-        if (!(Operator && Operator.parentNode === screen)) return; 
-        if (equal && equal.parentNode === screen) return;
+        if (!(Operator && Operator.parentNode === aboves)) return; 
+        if (equal && equal.parentNode === aboves) return;
+        if (e.target.innerText === '0' &&  variableB.textContent === "0") return;
+        if (!(e.target.innerText === '.') && variableB.textContent === "0") return;
         if (e.target.innerText === '.') {
             if (variableB.textContent.includes('.')) return;
             if (variableB.textContent === "") variableB.textContent += 0;
         }
-        if (e.target.innerText === '0' &&  variableB.textContent === "0") return
-        if (!(e.target.innerText === '.') && variableB.textContent === "0") return
 
             overflowB = variableB.textContent.split('');
             overflowB.push("e.target.innerText");
             variableB.textContent += e.target.innerText;
-            screen.appendChild(variableB);
+            belows.appendChild(variableB);         
 });        
 });
 
@@ -90,33 +88,38 @@ operators.forEach((operator) => {
 operator.addEventListener('click', function(e){
     // return if Error
     if (error && error.parentNode === screen) return;
+   
     // erasing previous variables and allowing to use the operators on new result
-    if (result && result.parentNode === screen) {
-        screen.removeChild(variableA);
-        screen.removeChild(variableB);
-        screen.removeChild(Operator);
-        screen.removeChild(equal);
-        screen.removeChild(result);
+    if (result && result.parentNode === belows) {
+        aboves.removeChild(variableA);
+        aboves.removeChild(variableB);
+        aboves.removeChild(Operator);
+        aboves.removeChild(equal);
+        belows.removeChild(result);
         variableA.textContent = result.textContent;
-        screen.appendChild(variableA)
+        belows.appendChild(variableA)
         variableB.textContent = '';
     }
-    // return if no VariableA
-    if (!(variableA && variableA.parentNode === screen)) return
     // run operations without operators    
-    if (variableB && variableB.parentNode === screen){
-        screen.removeChild(variableA);
-        screen.removeChild(variableB);
+    if (variableB && variableB.parentNode === belows){
+        aboves.removeChild(variableA);
+        belows.removeChild(variableB);
         operation(Operator,variableA,variableB);
-        screen.removeChild(result);
+        belows.removeChild(result);
         variableA.textContent = result.textContent;
-        screen.appendChild(variableA);
+        belows.appendChild(variableA);
         variableB.textContent = '';
     }
+
+    if (!(variableB && variableB.parentNode === belows)){
+       belows.removeChild(variableA);
+       aboves.appendChild(variableA);
+    }
+    
     overflowA.length = 0;
     overflowB.length = 0;
     Operator.textContent = e.target.innerText;
-    screen.appendChild(Operator); 
+    aboves.appendChild(Operator); 
 
 });
 });
@@ -125,17 +128,19 @@ operator.addEventListener('click', function(e){
 let equals = document.querySelector(".equal");
 equals.addEventListener('click', function(e){
     // if no variables or operator return 
-    if (!(variableA && variableA.parentNode === screen)) return;
-    if (!(Operator && Operator.parentNode === screen)) return;
-    if (!(variableB && variableB.parentNode === screen)) return;
+    if (!(variableA && variableA.parentNode === aboves)) return;
+    if (!(Operator && Operator.parentNode === aboves)) return;
+    if (!(variableB && variableB.parentNode === belows)) return;
     // if result is already there return
-    if (result && result.parentNode === screen) return;
+    if (result && result.parentNode === belows) return;
     if (error && error.parentNode === screen) return;
 
     overflowA.length = 0;
     overflowB.length = 0;
     equal.textContent = e.target.innerText;
-    screen.appendChild(equal);
+    belows.removeChild(variableB);
+    aboves.appendChild(variableB);
+    aboves.appendChild(equal);
     operation(Operator,variableA,variableB);
     
 })
@@ -152,20 +157,20 @@ function operation (Operator,variableA,variableB) {
         } else {
        round = variableA.textContent/variableB.textContent;
        result.textContent = Number(round.toFixed(4));
-       screen.appendChild(result);
+       belows.appendChild(result);
         };
     } else if (Operator.textContent === "×") {
         round = variableA.textContent * variableB.textContent;
         result.textContent = Number(round.toFixed(4));
-        screen.appendChild(result)
+        belows.appendChild(result)
     } else if (Operator.textContent === "-") {
         round = variableA.textContent - variableB.textContent;
         result.textContent = Number(round.toFixed(4));
-        screen.appendChild(result)
+        belows.appendChild(result)
     }else if (Operator.textContent === "+") {
         round = +variableA.textContent + +variableB.textContent;
         result.textContent = Number(round.toFixed(4));
-        screen.appendChild(result)
+        belows.appendChild(result)
     }
 }
 
