@@ -1,36 +1,42 @@
 // Reference to the screen 
 let screen = document.querySelector("#screen");
-screen.classList.add
+let aboves = document.createElement('div');
+screen.appendChild(aboves);
+let belows = document.createElement('div');
+screen.appendChild(belows);
+
 // declaring the required variables to appear on screen
 let variableA = document.createElement('span');
 variableA.classList.add('below');
 let variableB = document.createElement('span');
-variableB.classList.add('above');
+variableB.classList.add('below');
+
+// declaring the Operator
 let Operator = document.createElement('span');
 Operator.classList.add('above');
 
 // declaring the equal sign 
 let equal = document.createElement('span');
 equal.classList.add('above');
+
 // declaring the result
 let result = document.createElement('span');
 result.classList.add('below');
 
+// declaring error
+let error = document.createElement('p');
+error.classList.add('below');
 
 // rounding result
 let round;
-
-let error = document.createElement('p');
-
-// default display of '0'
-variableA.textContent = '0';
-screen.appendChild(variableA);
-
 
 // manage digits overflow
 let overflowA = []
 let overflowB = []
 
+// default display of '0'
+variableA.textContent = '0';
+screen.appendChild(variableA);
 
 // code for variables buttons
 let variables = document.querySelectorAll(".variables");
