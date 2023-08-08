@@ -78,6 +78,8 @@ variables.forEach((variable) => {
             overflowB = variableB.textContent.split('');
             overflowB.push("e.target.innerText");
             variableB.textContent += e.target.innerText;
+            variableB.classList.remove('above');
+            variableB.classList.add('below');
             belows.appendChild(variableB);         
 });        
 });
@@ -127,6 +129,8 @@ operator.addEventListener('click', function(e){
 
     if  (!(variableB && variableB.parentNode === belows)) {
        belows.removeChild(variableA);
+       variableA.classList.remove('below')
+       variableA.classList.add('above')
        aboves.appendChild(variableA);
     }
 
@@ -155,6 +159,8 @@ equals.addEventListener('click', function(e){
     overflowB.length = 0;
     equal.textContent = e.target.innerText;
     belows.removeChild(variableB);
+    variableB.classList.remove('below')
+    variableB.classList.add('above')
     aboves.appendChild(variableB);
     aboves.appendChild(equal);
     operation(Operator,variableA,variableB);
@@ -201,6 +207,10 @@ clear.addEventListener('click', () => {
     while (aboves.firstChild) aboves.removeChild(aboves.firstChild);
     while (belows.firstChild) belows.removeChild(belows.firstChild);
     variableA.textContent = '0';
+
+
+    variableA.classList.remove('above');
+    variableA.classList.add('below');
     belows.appendChild(variableA);
     screen.appendChild(aboves);
     screen.appendChild(belows);
@@ -219,6 +229,8 @@ Delete.addEventListener('click', () => {
     if (Operator && Operator.parentNode === aboves && !(variableB && variableB.parentNode === belows)) {
         aboves.removeChild(Operator); 
         aboves.removeChild(variableA);
+        variableA.classList.remove('above');
+        variableA.classList.add('below');
         belows.appendChild(variableA);
         return
         }
