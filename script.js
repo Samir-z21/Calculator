@@ -107,15 +107,31 @@ operator.addEventListener('click', function(e){
         operation(Operator,variableA,variableB);
         belows.removeChild(result);
         variableA.textContent = result.textContent;
-        belows.appendChild(variableA);
+        aboves.appendChild(variableA);
         variableB.textContent = '';
+        overflowA.length = 0;
+        overflowB.length = 0;
+        Operator.textContent = e.target.innerText;
+        aboves.appendChild(Operator); 
+        return;
+    } 
+
+    if (Operator && Operator.parentNode === aboves && (!(variableB && variableB.parentNode === belows))) {
+        aboves.removeChild(Operator);
+        overflowA.length = 0;
+        overflowB.length = 0;
+        Operator.textContent = e.target.innerText;
+        aboves.appendChild(Operator); 
+        return;
     }
 
-    if (!(variableB && variableB.parentNode === belows)){
+    if  (!(variableB && variableB.parentNode === belows)) {
        belows.removeChild(variableA);
        aboves.appendChild(variableA);
     }
+
     
+   
     overflowA.length = 0;
     overflowB.length = 0;
     Operator.textContent = e.target.innerText;
@@ -182,9 +198,12 @@ clear.addEventListener('click', () => {
     Operator.textContent = '';
     equal.textContent = '';
     result.textContent = '';
-    while (screen.firstChild) screen.removeChild(screen.firstChild);
-    variableA.textContent = '0'
-    screen.appendChild(variableA);
+    while (aboves.firstChild) aboves.removeChild(aboves.firstChild);
+    while (belows.firstChild) belows.removeChild(belows.firstChild);
+    variableA.textContent = '0';
+    belows.appendChild(variableA);
+    screen.appendChild(aboves);
+    screen.appendChild(belows);
     overflowA.length = 0;
     overflowB.length = 0;
 });
