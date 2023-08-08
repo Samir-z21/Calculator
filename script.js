@@ -211,21 +211,21 @@ clear.addEventListener('click', () => {
 // code for delete button
 let Delete = document.querySelector("#delete");
 Delete.addEventListener('click', () => {
-    if (variableB && variableB.parentNode === screen) {
+    if (variableB && variableB.parentNode === belows) {
         overflowB.pop();
     } else overflowA.pop();
-    if (result && result.parentNode === screen) return;
+    if (result && result.parentNode === belows) return;
     
-    if (Operator &&
-        Operator.parentNode === screen &&
-        !(variableB && variableB.parentNode === screen)) {
-        screen.removeChild(Operator); 
+    if (Operator && Operator.parentNode === aboves && !(variableB && variableB.parentNode === belows)) {
+        aboves.removeChild(Operator); 
+        aboves.removeChild(variableA);
+        belows.appendChild(variableA);
         return
         }
 
-    if (variableA && variableA.parentNode === screen &&
+    if (variableA && variableA.parentNode === belows &&
         !(variableA.textContent === '0') &&
-        !(variableB && variableB.parentNode === screen) ) {
+        !(variableB && variableB.parentNode === belows) ) {
         let arrVariableA = variableA.textContent.split('');
         arrVariableA.pop();
         variableA.textContent = arrVariableA.join("");
@@ -233,11 +233,11 @@ Delete.addEventListener('click', () => {
 
     if (variableA.textContent === "") variableA.textContent = 0;
 
-    if ((variableB && variableB.parentNode === screen)){
+    if ((variableB && variableB.parentNode === belows)){
         let arrVariableB = variableB.textContent.split('');
         arrVariableB.pop();
         variableB.textContent = arrVariableB.join("");
     }
 
-    if (variableB.textContent === "" && variableB.parentNode === screen) screen.removeChild(variableB)
+    if (variableB.textContent === "" && variableB.parentNode === belows) belows.removeChild(variableB)
 })
