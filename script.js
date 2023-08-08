@@ -35,7 +35,7 @@ variables.forEach((variable) => {
     
     variable.addEventListener('click', function(e){
         if (overflowA.length === 14) return 
-        if (error && error.parentNode === screen) return;
+        if (error && error.parentNode === aboves) return;
         if (Operator && Operator.parentNode === aboves) return;
         if (equal && equal.parentNode === aboves) return;
         if (e.target.innerText === '0' &&  variableA.textContent === "0") return;
@@ -59,7 +59,7 @@ variables.forEach((variable) => {
 
     variable.addEventListener('click', function(e){
         if (overflowB.length === 14) return
-        if (error && error.parentNode === screen) return;
+        if (error && error.parentNode === aboves) return;
         if (!(Operator && Operator.parentNode === aboves)) return; 
         if (equal && equal.parentNode === aboves) return;
         if (e.target.innerText === '0' &&  variableB.textContent === "0") return;
@@ -158,8 +158,10 @@ function operation(Operator, variableA, variableB) {
     if (Operator.textContent === "÷") {
         if (variableB.textContent == 0) {
             error.textContent = "ERROR";
-            while (screen.firstChild) screen.removeChild(screen.firstChild);
-            screen.appendChild(error);
+            error.style.fontSize = "40px"
+            while (aboves.firstChild) aboves.removeChild(aboves.firstChild);
+            while (belows.firstChild) belows.removeChild(belows.firstChild);
+            aboves.appendChild(error)
             return;
         } else {
             round = variableA.textContent / variableB.textContent;
