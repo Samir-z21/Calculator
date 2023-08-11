@@ -187,10 +187,12 @@ function operation(Operator, variableA, variableB) {
 // function to format the number
 function formatNumber(number) {
     const absoluteNumber = Math.abs(number);
+    
     if (absoluteNumber >= 1e14) {
-        return number.toExponential(8); // Use scientific notation for numbers exceeding 14 digits
+        return number.toExponential(1); // Use scientific notation for numbers exceeding 14 digits
     } else {
-        return Number(number.toFixed(8)); // Limit to 14 digits
+        const decimalPlaces = absoluteNumber >= 1e7 ? 1 : 8; // Use 1 decimal place if >= 10 million, otherwise 8
+        return parseFloat(number.toFixed(decimalPlaces));
     }
 }
 
